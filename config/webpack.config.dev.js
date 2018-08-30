@@ -179,14 +179,16 @@ module.exports = {
             test: /\.css$/,
             use: [
               require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  modules: true,
-                  importLoaders: 1,
-                  localIdentName: '[name]_[local]_[hash:base64:5]'
+                {
+                    loader: require.resolve('typings-for-css-modules-loader'),
+                    options: {
+                        modules: true,
+                        namedExport: true,
+                        camelCase: true,
+                        minimize: true,
+                        localIdentName: "[name]_[local]_[hash:base64:5]"
+                    }
                 },
-              },
               {
                 loader: require.resolve('postcss-loader'),
                 options: {

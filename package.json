@@ -69,7 +69,8 @@
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
     "cssnano-preset-advanced": "^4.0.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "typings-for-css-modules-loader": "^1.7.0"
   },
   "jest": {
     "collectCoverageFrom": [
