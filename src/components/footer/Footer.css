@@ -1,0 +1,16 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+}
+
+.footer_con {
+    width: 25%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer_con img {
+    width: 100%;
+
+}

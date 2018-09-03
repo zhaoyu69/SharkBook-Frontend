@@ -16,7 +16,8 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+//    '' is declared but its value is never read.
+    "noUnusedLocals": false
   },
   "exclude": [
     "node_modules",

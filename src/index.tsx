@@ -11,20 +11,18 @@ import App from "./components/todolist/App";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from './reducers'
+import Footer from "./components/footer/Footer";
 const store = createStore(rootReducer);
 
 ReactDom.render(
     <Provider store={store}>
         <Router history={history}>
             <div>
-                <ul>
-                    <li><Link to="/">Homes</Link></li>
-                    <li><Link to="/todo">TodoList</Link></li>
-                </ul>
                 <Switch>
                     <Route exact path="/" component={Hello}/>
                     <Route path="/todo" component={App} />
                 </Switch>
+                <Footer />
             </div>
         </Router>
     </Provider>,

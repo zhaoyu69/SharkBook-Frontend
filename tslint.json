@@ -8,9 +8,15 @@
     ]
   },
   "rules": {
+//    Import sources within a group must be alphabetized.
     "ordered-imports": false,
+//    Value must be set for boolean attributes
     "jsx-boolean-value": false,
+//    The key 'id' is not sorted alphabetically
     "object-literal-sort-keys": false,
-    "jsx-no-lambda": false
+//    Lambdas are forbidden in JSX attributes due to their rendering performance impact
+    "jsx-no-lambda": false,
+//    JSX elements with no children must be self-closing
+    "jsx-self-close": false
   }
 }

@@ -7,3 +7,16 @@ body {
 img {
   content: normal !important;
 }
+
+a{
+  text-decoration: none;
+  color: #000;
+}
+
+ul, ol{
+  list-style: none;
+}
+
+html, body, :global(#root) {
+  height: 100%;
+}
