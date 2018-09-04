@@ -18,11 +18,9 @@ class Footer extends React.Component {
                         <span>图表</span>
                     </NavLink>
                 </span>
-                <span className={styles.footer_con}>
-                    <NavLink to="/accounting" exact activeClassName={'active'}>
-                        <img src="/images/tabbar_add@3x.png" alt="记账"/>
-                        <span>记账</span>
-                    </NavLink>
+                <span className={styles.footer_con} onClick={this.makeAccount}>
+                    <img src="/images/tabbar_add@3x.png" alt="记账"/>
+                    <span>记账</span>
                 </span>
                 <span className={styles.footer_con}>
                     <NavLink to="/discover" exact activeClassName={'active'}>
@@ -39,6 +37,12 @@ class Footer extends React.Component {
             </footer>
         )
     }
+
+    makeAccount=()=>{
+        const elem:any = document.getElementById('accounting_container');
+        elem.style.animationPlayState = "running";
+        elem.style.display = "block";
+    };
 }
 
 export default Footer;

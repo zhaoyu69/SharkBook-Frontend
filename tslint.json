@@ -17,6 +17,10 @@
 //    Lambdas are forbidden in JSX attributes due to their rendering performance impact
     "jsx-no-lambda": false,
 //    JSX elements with no children must be self-closing
-    "jsx-self-close": false
+    "jsx-self-close": false,
+//    The class property 'makeAccount' must be marked either 'private', 'public', or 'protected'
+    "member-access": false,
+//    Calls to 'console.log' are not allowed.
+    "no-console": false
   }
 }
