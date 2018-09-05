@@ -22,4 +22,9 @@ html, body, :global(#root) {
   overflow: hidden;
 }
 
+button {
+  border: 0;
+  background: transparent;
+}
+
 /* 主题色：#fed953 */

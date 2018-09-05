@@ -1,12 +1,11 @@
 import * as React from "react";
-// import * as styles from "./Hello.css";
-import * as styles from './index.less';
+import * as styles from "./Hello.css";
 
 class Hello extends React.Component {
     public render() {
         return (
             <div className={styles.hello}>
-                <a href="">Hello</a>
+                Hello
             </div>
         )
     }
