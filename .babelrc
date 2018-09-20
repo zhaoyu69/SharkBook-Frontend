@@ -1,0 +1,12 @@
+{
+  "presets": [
+    "env",
+    "react",
+    "stage-2",
+    "mobx"
+  ],
+  "plugins": [
+    "transform-runtime",
+    ["import", { "libraryName": "antd-mobile", "libraryDirectory": "es", "style": true }] // `style: true` 会加载 less 文件
+  ]
+}

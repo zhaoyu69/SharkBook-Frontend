@@ -1,0 +1,35 @@
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ddd;
+  .footer_con {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    padding: 2px 0;
+    position: relative;
+    img {
+      display: block;
+      width: 40%;
+      margin: 0 auto;
+    }
+    &:nth-child(3) {
+      img {
+        position: absolute;
+        top: -50px;
+        width: 80%;
+        left: 0;
+        right: 0;
+      }
+      span {
+        position: absolute;
+        left:0;
+        right:0;
+        bottom: 2px;
+      }
+    }
+  }
+}
