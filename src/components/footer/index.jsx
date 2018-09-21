@@ -1,8 +1,9 @@
 import React from "react";
 import {observer} from "mobx-react";
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './index.css';
 import routes from './routes';
+import {globalStore} from "stores/GlobalStore";
 
 @observer
 class Footer extends React.Component {
@@ -13,14 +14,14 @@ class Footer extends React.Component {
                     return (
                         <span className={styles.footer_con} key={idx}>
                             {idx === 2?
-                                <div onClick={this.addAccount}>
+                                <div onClick={globalStore.showAccounting}>
                                     <img src={route.src} alt={route.title}/>
                                     <span>{route.title}</span>
                                 </div>:
-                                <NavLink to={route.url} exact activeClassName={'active'}>
+                                <Link to={route.url} exact activeClassName="active">
                                     <img src={route.src} alt={route.title}/>
                                     <span>{route.title}</span>
-                                </NavLink>
+                                </Link>
                             }
                         </span>
                     )
@@ -28,10 +29,6 @@ class Footer extends React.Component {
             </footer>
         )
     }
-
-    addAccount=()=>{
-
-    };
 }
 
 export default Footer;

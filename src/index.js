@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import styles from './index.less';
 import history from 'utils/history';
+import './index.less';
 import {
     Router,
     Route,
@@ -13,10 +13,11 @@ import Detail from "components/detail";
 import Chart from "components/chart";
 import Discover from "components/discover";
 import Mine from "components/mine";
+import Accounting from "components/accounting";
 
 ReactDom.render(
     <Router history={history} >
-        <div className={styles.wrap}>
+        <div>
             <Switch>
                 <Route exact path="/" component={Detail} />
                 <Route path="/charts" component={Chart} />
@@ -24,6 +25,7 @@ ReactDom.render(
                 <Route path="/mine" component={Mine} />
             </Switch>
             <Footer />
+            <Accounting />
         </div>
     </Router>,
     document.getElementById('root')
