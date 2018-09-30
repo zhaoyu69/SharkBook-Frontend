@@ -1,17 +1,15 @@
 import { observable, action, computed } from "mobx";
 
 export default class GlobalStore{
+    @observable accTop="0";
     // 打开记账
     @action showAccounting=()=>{
-        const elem = document.getElementById("accounting_wrap");
-        elem.style.animationPlayState = "running";
-        elem.style.display = "block";
-    };
+        this.accTop="0";
 
+    };
     // 关闭记账
     @action closeAccounting=()=>{
-        const elem = document.getElementById('accounting_wrap');
-        elem.style.display = "none";
+        this.accTop="100vh";
     };
 }
 

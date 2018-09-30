@@ -4,18 +4,37 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 100vh;
   bottom: 0;
   z-index: 999;
-  animation: showUp 0.4s ease;
-  animation-play-state: paused;
-  animation-fill-mode: forwards;
+  background: #fff;
 }
-@keyframes showUp {
-  from {
-    top: 100vh;
-  }
-  to {
-    top: 0;
-  }
+.container .tabContent {
+  padding: 10px;
+}
+.container .tabbar {
+  position: relative;
+  background: #fed953;
+}
+.container .tabbar .tablist {
+  width: 180px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.container .tabbar .tablist li {
+  font-size: 16px;
+  width: 80px;
+  height: 50px;
+  line-height: 50px;
+  margin: 0 5px;
+  float: left;
+  text-align: center;
+}
+.container .tabbar .cancel {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  display: block;
+  height: 50px;
+  line-height: 50px;
 }

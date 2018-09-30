@@ -1,10 +1,11 @@
 import React from "react";
 import {observer} from "mobx-react";
-import { Link } from 'react-router-dom';
+import { NavLink,withRouter } from 'react-router-dom';
 import styles from './index.css';
 import routes from './routes';
 import {globalStore} from "stores/GlobalStore";
 
+@withRouter
 @observer
 class Footer extends React.Component {
     render() {
@@ -18,10 +19,10 @@ class Footer extends React.Component {
                                     <img src={route.src} alt={route.title}/>
                                     <span>{route.title}</span>
                                 </div>:
-                                <Link to={route.url} exact activeClassName="active">
-                                    <img src={route.src} alt={route.title}/>
+                                <NavLink to={route.url} exact activeClassName="active">
+                                    <img src={location.hash === "#" + route.url ? route.activeSrc : route.src} alt={route.title}/>
                                     <span>{route.title}</span>
-                                </Link>
+                                </NavLink>
                             }
                         </span>
                     )
