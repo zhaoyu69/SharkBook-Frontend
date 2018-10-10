@@ -3,7 +3,9 @@ import {observer} from "mobx-react";
 import {Tabs} from 'antd-mobile';
 import styles from './index.less';
 import {globalStore} from "stores/GlobalStore";
-import TweenOne from 'rc-tween-one'; //ant-motion
+import TweenOne from 'rc-tween-one';//ant-motion
+import PayList from "components/accounting/PayList";
+import IncomeList from "components/accounting/IncomeList";
 
 const tabs = [
     { title: '支出', page: 0 },
@@ -52,10 +54,10 @@ class Accounting extends React.Component {
                       renderTabBar={this.renderTabBar}
                 >
                     <div className={styles.tabContent}>
-                        Content of first tab
+                        <PayList/>
                     </div>
                     <div className={styles.tabContent}>
-                        Content of second tab
+                        <IncomeList/>
                     </div>
                 </Tabs>
             </TweenOne>

@@ -8,13 +8,15 @@
   bottom: 0;
   z-index: 999;
   background: #fff;
+  font-size: 24px;
 }
 .container .tabContent {
-  padding: 10px;
+  padding: 20px 30px;
 }
 .container .tabbar {
   position: relative;
   background: #fed953;
+  z-index: 999;
 }
 .container .tabbar .tablist {
   width: 180px;
@@ -22,7 +24,6 @@
   overflow: hidden;
 }
 .container .tabbar .tablist li {
-  font-size: 16px;
   width: 80px;
   height: 50px;
   line-height: 50px;
@@ -31,6 +32,7 @@
   text-align: center;
 }
 .container .tabbar .cancel {
+  font-size: 20px;
   position: absolute;
   top: 0;
   right: 20px;
