@@ -13,9 +13,9 @@ class IncomeList extends React.Component {
             return (
                 <Flex key={idx}>
                     {line.map(item => {
-                        const {title, src, activeSrc, active} = item;
+                        const {key, title, src, activeSrc, active} = item;
                         return (
-                            <Flex.Item key={title} className={styles.item}>
+                            <Flex.Item key={key} className={styles.item}>
                                 <div onClick={()=>store.incomeItemClick(item)}>
                                     <img src={!active?src:activeSrc} alt="" className={styles.itemImg}/>
                                     <p className={styles.itemTitle}>{title}</p>

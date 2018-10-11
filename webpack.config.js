@@ -101,7 +101,8 @@ module.exports = {
         // 常用的库全局声明，例如lodash
         new webpack.ProvidePlugin({
             _: 'lodash',
-            axios: 'axios'
+            axios: 'axios',
+            moment: 'moment'
         }),
 
         // 打包前先清空原包目录

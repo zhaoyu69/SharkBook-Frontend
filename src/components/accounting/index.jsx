@@ -7,6 +7,7 @@ import TweenOne from 'rc-tween-one';//ant-motion
 import PayList from "components/accounting/PayList";
 import IncomeList from "components/accounting/IncomeList";
 import {accountingStore} from "stores/AccountingStore";
+import Calculator from "components/accounting/Calculator";
 
 const tabs = [
     { title: '支出', page: 0 },
@@ -15,13 +16,9 @@ const tabs = [
 
 @observer
 class Accounting extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {page:0}
-    }
-
     renderTabBar = (props) => {
         const {tabs, activeTab} = props;
+        const {changePage} = accountingStore;
         return (
             <div className={styles.tabbar}>
                 <ul className={styles.tablist}>
@@ -30,38 +27,42 @@ class Accounting extends React.Component {
                         return (
                             <li key={page}
                                 style={activeTab === page?{borderBottom: "2px solid #000"}:{}}
-                                onClick={()=>this.changePage(page)}>{tab.title}</li>
+                                onClick={()=>changePage(page)}>{tab.title}</li>
                         )
                     })}
                 </ul>
-                <span className={styles.cancel} onClick={globalStore.closeAccounting}>取消</span>
+                <span className={styles.cancel} onClick={this.closeAccounting}>取消</span>
             </div>
         );
     };
 
-    changePage=(page)=>{
-        this.setState({page})
+    closeAccounting = () => {
+        globalStore.closeAccounting();
+        accountingStore.initListActives();
     };
 
     render() {
         const {accTop} = globalStore;
-        const {page} = this.state;
+        const {tabPage, activeStatus} = accountingStore;
         return (
-            <TweenOne
-                className={styles.container}
-                animation={{top: accTop, duration: 300}}>
-                <Tabs tabs={tabs}
-                      page={page}
-                      renderTabBar={this.renderTabBar}
-                >
-                    <div className={styles.tabContent}>
-                        <PayList store={accountingStore}/>
-                    </div>
-                    <div className={styles.tabContent}>
-                        <IncomeList store={accountingStore}/>
-                    </div>
-                </Tabs>
-            </TweenOne>
+            <div>
+                <TweenOne
+                    className={styles.container}
+                    animation={{top: accTop, duration: 300}}>
+                    <Tabs tabs={tabs}
+                          page={tabPage}
+                          renderTabBar={this.renderTabBar}
+                    >
+                        <div className={styles.tabContent}>
+                            <PayList store={accountingStore}/>
+                        </div>
+                        <div className={styles.tabContent}>
+                            <IncomeList store={accountingStore}/>
+                        </div>
+                    </Tabs>
+                </TweenOne>
+                {activeStatus?<Calculator store={accountingStore}/>:null}
+            </div>
         );
     }
 }

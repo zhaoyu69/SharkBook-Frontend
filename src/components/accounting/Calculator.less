@@ -1,0 +1,59 @@
+.calculator {
+  position: fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:999;
+  overflow: hidden;
+  border-top:1px solid #ccc;
+  width:100vw;
+  background: #fafafa;
+  font-size: 24px;
+  .line {
+    padding: 10px;
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    .remark {
+      float: left;
+      padding-left: 20px;
+      .remark_input {
+        border: 0;
+        background: transparent;
+        margin-left: 8px;
+      }
+    }
+    .price {
+      float: right;
+      font-size: 34px;
+      font-weight: bolder;
+    }
+  }
+  .keyboard {
+    clear: both;
+    width:100vw;
+    border-collapse: collapse;
+    border:1px solid #ccc;
+    text-align: center;
+    font-size: 34px;
+    td {
+      border:1px solid #ccc;
+      height: 100px;
+      width:25vw;
+    }
+    .backSign {
+      img {
+        vertical-align: middle;
+        width: 25%;
+        margin-bottom: 5px;
+      }
+    }
+    .equalSign {
+      background: #fed953;
+    }
+  }
+}
+.toast {
+  font-size: 20px;
+  padding: 20px 40px;
+}
