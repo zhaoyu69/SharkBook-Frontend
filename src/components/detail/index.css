@@ -1,0 +1,73 @@
+.detail {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+.detail header {
+  padding: 10px 0;
+}
+.detail header img {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+}
+.detail .list {
+  flex: 1;
+  background: #ffffff;
+}
+.detail .noticeBar {
+  padding: 10px;
+  background: #fff8e1;
+}
+.detail .noticeBar p {
+  font-size: 24px;
+  padding-left: 10px;
+}
+.detail .noticeBar .icon {
+  width: 25px;
+}
+.detail .overview {
+  padding: 10px 0;
+  display: flex;
+}
+.detail .overview .datePicker {
+  width: 20vw;
+  padding: 0 30px;
+}
+.detail .overview .datePicker .year {
+  color: #9a9a9a;
+}
+.detail .overview .datePicker .month {
+  padding-right: 20px;
+  position: relative;
+}
+.detail .overview .datePicker .month .rightLine {
+  position: absolute;
+  right: 0;
+  top: 8px;
+  width: 1px;
+  height: 45px;
+  background: #ccc;
+}
+.detail .overview .datePicker .month .month_num {
+  font-size: 40px;
+}
+.detail .overview .datePicker .month img {
+  width: 20px;
+  margin-left: 10px;
+}
+.detail .overview .income,
+.detail .overview .pay {
+  width: 40vw;
+  padding-left: 30px;
+}
+.detail .overview .income .title,
+.detail .overview .pay .title {
+  color: #9a9a9a;
+}
+.detail .overview .income .count,
+.detail .overview .pay .count {
+  font-size: 32px;
+  margin-top: 10px;
+}

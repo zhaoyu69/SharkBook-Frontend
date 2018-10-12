@@ -1,0 +1,70 @@
+.detail {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  header {
+    padding: 10px 0;
+    img {
+      display: block;
+      width: 150px;
+      margin: 0 auto;
+    }
+  }
+  .list {
+    flex: 1;
+    background: #ffffff;
+  }
+  .noticeBar {
+    padding: 10px;
+    background: #fff8e1;
+    p{
+      font-size: 24px;
+      padding-left: 10px;
+    }
+    .icon {
+      width: 25px;
+    }
+  }
+  .overview {
+    padding: 10px 0;
+    display: flex;
+    .datePicker {
+      width: 20vw;
+      padding: 0 30px;
+      .year {
+        color: #9a9a9a;
+      }
+      .month {
+        padding-right: 20px;
+        position: relative;
+        .rightLine {
+          position: absolute;
+          right: 0;
+          top: 8px;
+          width: 1px;
+          height: 45px;
+          background: #ccc;
+        }
+        .month_num {
+          font-size: 40px;
+        }
+        img {
+          width: 20px;
+          margin-left: 10px;
+        }
+      }
+    }
+    .income, .pay {
+      width: 40vw;
+      padding-left: 30px;
+      .title {
+        color: #9a9a9a;
+      }
+      .count {
+        font-size: 32px;
+        margin-top: 10px;
+      }
+    }
+  }
+}

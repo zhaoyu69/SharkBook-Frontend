@@ -1,7 +1,7 @@
 import { observable, action, computed } from "mobx";
 
 export default class GlobalStore{
-    @observable accTop="0";
+    @observable accTop="100vh";
     // 打开记账
     @action showAccounting=()=>{
         this.accTop="0";
