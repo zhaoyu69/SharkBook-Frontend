@@ -71,9 +71,9 @@ class Calculator extends React.Component {
         const {store} = this.props;
         const {totalPrice} = store;
         const key = e.target.innerHTML;
-        // todo:整数位最多8位 小数位2位
-        // todo:负数问题
+        // 负数问题 ok
         const lastone = totalPrice[totalPrice.length-1];
+        const firstone = totalPrice[0];
         switch (key) {
             case "1":
             case "2":
@@ -118,7 +118,16 @@ class Calculator extends React.Component {
                 else if(lastone==="-"){
                     store.totalPrice = _.replace(store.totalPrice, "-", "+");
                 }
-                // -不在末尾 但是包含- 计算值(-)
+                // -不在末尾 但是开头是- 说明第一个数是负数 计算值(-)
+                else if(firstone==="-"){
+                    const [num0, num1, num2] = totalPrice.split("-");
+                    if(num2) {
+                        store.totalPrice = - Number(num1) - Number(num2) + "+";
+                    } else {
+                        store.totalPrice += key;
+                    }
+                }
+                // -不在开头 但是包含- 计算值(-)
                 else if(totalPrice.includes("-")){
                     const [num1, num2] = totalPrice.split("-");
                     store.totalPrice = Number(num1) - Number(num2) + "+";
@@ -132,7 +141,16 @@ class Calculator extends React.Component {
                 if(lastone==="-"){
                     return;
                 }
-                // -不在末尾 但是包含- 计算值(-)
+                // -不在末尾 但是开头是- 说明第一个数是负数 计算值(-)
+                else if(firstone==="-"){
+                    const [num0, num1, num2] = totalPrice.split("-");
+                    if(num2) {
+                        store.totalPrice = - Number(num1) - Number(num2) + "-";
+                    }else{
+                        store.totalPrice += key;
+                    }
+                }
+                // -不在开头 但是包含- 计算值(-)
                 else if(totalPrice.includes("-")){
                     const [num1, num2] = totalPrice.split("-");
                     store.totalPrice = Number(num1) - Number(num2) + "-";
@@ -168,6 +186,7 @@ class Calculator extends React.Component {
     calClick = (e) => {
         const {store} = this.props;
         const {totalPrice, remarks, accTime} = store;
+        const firstone = totalPrice[0];
         const activeItem = toJS(store.activeItem);
         const key = e.target.innerHTML;
         switch (key) {
@@ -186,7 +205,12 @@ class Calculator extends React.Component {
                 if(totalPrice.includes("+")){
                     const [num1, num2] = totalPrice.split("+");
                     store.totalPrice = Number(num1) + Number(num2) + "";
-                }else if(totalPrice.includes("-")){
+                }
+                else if(firstone==="-"){
+                    const [num0, num1, num2] = totalPrice.split("-");
+                    store.totalPrice = - Number(num1) - Number(num2) + "";
+                }
+                else if(totalPrice.includes("-")){
                     const [num1, num2] = totalPrice.split("-");
                     store.totalPrice = Number(num1) - Number(num2) + "";
                 }

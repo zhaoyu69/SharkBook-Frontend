@@ -50,13 +50,19 @@ export default class AccountingStore{
     // 是否计算完成 右下角显示完成或=
     @computed get calCompleted(){
         const lastone = this.totalPrice[this.totalPrice.length-1];
+        const firstone = this.totalPrice[0];
         // 末尾不是+也不是- 但是包含着+或-
         let nums = [];
         if(lastone!=="+" && lastone!=="-"){
             if(this.totalPrice.includes("+")){
                 nums = this.totalPrice.split("+");
-            }else if(this.totalPrice.includes("-")){
+            }
+            else if(this.totalPrice.includes("-")){
                 nums = this.totalPrice.split("-");
+                if(firstone==="-"){
+                    nums = _.drop(nums, 2);
+                }
+                console.log(nums);
             }
         }
         // nums为空代表完成 不为空代表需要计算=
