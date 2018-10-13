@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from "mobx-react";
 import styles from './index.less';
-import {NoticeBar} from 'antd-mobile';
+import {NoticeBar, SwipeAction, List} from 'antd-mobile';
 
 @observer
 class Detail extends React.Component {
@@ -37,7 +37,35 @@ class Detail extends React.Component {
                 </div>
                 {/*列表*/}
                 <div className={styles.list}>
-
+                    <div>
+                        <div className={styles.listdate}>
+                            10月13日 星期六
+                        </div>
+                        <div className={styles.listTotal}>
+                            支出：0.00 收入：0.00
+                        </div>
+                    </div>
+                    <SwipeAction
+                        style={{ backgroundColor: '#ccc', clear:"both" }}
+                        autoClose
+                        right={[
+                            {
+                                text: '删除',
+                                onPress: () => console.log('delete'),
+                                style: { backgroundColor: '#F4333C', color: 'white' },
+                            },
+                        ]}
+                        onOpen={() => console.log('global open')}
+                        onClose={() => console.log('global close')}
+                    >
+                        <List.Item
+                            extra="0.00"
+                            onClick={() => console.log('List.Item clicked!')}
+                            className={styles.listItem}
+                        >
+                            <img src="/static/images/e_commodity_l@3x.png" alt=""/> 日用
+                        </List.Item>
+                    </SwipeAction>
                 </div>
             </div>
         );
