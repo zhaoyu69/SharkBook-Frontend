@@ -38,34 +38,37 @@ class Detail extends React.Component {
                 {/*列表*/}
                 <div className={styles.list}>
                     <div>
-                        <div className={styles.listdate}>
-                            10月13日 星期六
+                        <div className={styles.listLine}>
+                            <div className={styles.listdate}>
+                                10月13日 星期六
+                            </div>
+                            <div className={styles.listTotal}>
+                                支出：0.00 收入：0.00
+                            </div>
                         </div>
-                        <div className={styles.listTotal}>
-                            支出：0.00 收入：0.00
-                        </div>
-                    </div>
-                    <SwipeAction
-                        style={{ backgroundColor: '#ccc', clear:"both" }}
-                        autoClose
-                        right={[
-                            {
-                                text: '删除',
-                                onPress: () => console.log('delete'),
-                                style: { backgroundColor: '#F4333C', color: 'white' },
-                            },
-                        ]}
-                        onOpen={() => console.log('global open')}
-                        onClose={() => console.log('global close')}
-                    >
-                        <List.Item
-                            extra="0.00"
-                            onClick={() => console.log('List.Item clicked!')}
-                            className={styles.listItem}
+                        <SwipeAction
+                            style={{ backgroundColor: '#ccc', clear:"both" }}
+                            autoClose
+                            right={[
+                                {
+                                    text: '删除',
+                                    onPress: () => console.log('delete'),
+                                    style: { backgroundColor: '#F4333C', color: 'white' },
+                                },
+                            ]}
+                            onOpen={() => console.log('global open')}
+                            onClose={() => console.log('global close')}
                         >
-                            <img src="/static/images/e_commodity_l@3x.png" alt=""/> 日用
-                        </List.Item>
-                    </SwipeAction>
+                            <List.Item
+                                thumb="/static/images/e_commodity_l@3x.png"
+                                extra="0.00"
+                                onClick={() => console.log('List.Item clicked!')}
+                                className={styles.listItem}
+                            >
+                                日用
+                            </List.Item>
+                        </SwipeAction>
+                    </div>
                 </div>
             </div>
         );

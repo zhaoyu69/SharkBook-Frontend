@@ -15,6 +15,11 @@ import Discover from "components/discover";
 import Mine from "components/mine";
 import Accounting from "components/accounting";
 
+// Parse init
+Parse.initialize("APPLICATION_ID");
+const serverHost=location.host.split(':')[0];
+Parse.serverURL='http://' + serverHost + ':1338/parse';
+
 ReactDom.render(
     <Router history={history} >
         <div>

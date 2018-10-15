@@ -44,6 +44,7 @@
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.6",
     "moment": "^2.22.2",
+    "parse": "^2.1.0",
     "rc-tween-one": "^2.2.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

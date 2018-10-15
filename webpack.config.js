@@ -102,7 +102,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             _: 'lodash',
             axios: 'axios',
-            moment: 'moment'
+            moment: 'moment',
+            Parse: 'parse'
         }),
 
         // 打包前先清空原包目录
@@ -111,6 +112,9 @@ module.exports = {
     // webpack-dev-server
     devServer: {
         contentBase: './dist',
-        hot: true
+        hot: true,
+        proxy: {
+            "/api": "http://localhost:7001"
+        }
     }
 };
