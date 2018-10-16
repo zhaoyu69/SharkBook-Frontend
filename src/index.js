@@ -8,12 +8,14 @@ import {
     Switch,
 } from 'react-router-dom';
 
-import Footer from "./components/footer";
 import Detail from "components/detail";
 import Chart from "components/chart";
 import Discover from "components/discover";
 import Mine from "components/mine";
 import Accounting from "components/accounting";
+import WechatLogin from "components/login/Wechat";
+import PhoneLogin from "components/login/Phone";
+import Register from "components/register";
 
 // Parse init
 Parse.initialize("APPLICATION_ID");
@@ -28,8 +30,10 @@ ReactDom.render(
                 <Route path="/charts" component={Chart} />
                 <Route path="/discover" component={Discover} />
                 <Route path="/mine" component={Mine} />
+                <Route path="/login/wechat" component={WechatLogin}/>
+                <Route path="/login/phone" component={PhoneLogin}/>
+                <Route path="/register" component={Register}/>
             </Switch>
-            <Footer />
             <Accounting />
         </div>
     </Router>,

@@ -51,6 +51,7 @@
     "react-router-dom": "^4.3.1"
   },
   "theme": {
-    "brand-primary": "#fed953"
+    "brand-primary": "#fed953",
+    "color-text-base": "#000"
   }
 }

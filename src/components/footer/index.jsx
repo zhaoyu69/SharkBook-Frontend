@@ -2,7 +2,7 @@ import React from "react";
 import {observer} from "mobx-react";
 import { NavLink,withRouter } from 'react-router-dom';
 import styles from './index.css';
-import routes from 'utils/routes';
+import routes from './routes';
 import {globalStore} from "stores/GlobalStore";
 
 @withRouter

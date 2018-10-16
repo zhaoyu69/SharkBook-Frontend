@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react";
+import Footer from "components/footer";
 
 // import styles from './index.less';
 
@@ -9,6 +10,7 @@ class Discover extends React.Component {
         return (
             <div>
                 Discover
+                <Footer />
             </div>
         );
     }

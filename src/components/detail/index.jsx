@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react";
 import styles from './index.less';
 import {NoticeBar, SwipeAction, List} from 'antd-mobile';
+import Footer from "components/footer";
 
 @observer
 class Detail extends React.Component {
@@ -70,6 +71,7 @@ class Detail extends React.Component {
                         </SwipeAction>
                     </div>
                 </div>
+                <Footer />
             </div>
         );
     }
