@@ -131,7 +131,10 @@ module.exports = {
         contentBase: './dist',
         hot: true,
         proxy: {
-            "/api": "http://localhost:7001"
+            "/api": {
+                target: "http://localhost:7001",
+                secure: false
+            }
         }
     }
 };

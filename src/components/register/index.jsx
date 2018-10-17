@@ -4,6 +4,7 @@ import styles from './index.less';
 import {Icon, List, InputItem, Toast, Button} from 'antd-mobile';
 import {goBack} from "utils/go";
 import {registerStore} from "stores/RegisterStore";
+import './index.module.less';
 
 @observer
 class Register extends React.Component {
@@ -12,17 +13,17 @@ class Register extends React.Component {
         switch (type) {
             case "phoneNumber":
                 if(hasPhoneNumberError){
-                    Toast.info("请输入正确的手机号!")
+                    Toast.info("请输入正确的手机号!", 1)
                 }
                 break;
             case "password1":
                 if(hasPassword1Error){
-                    Toast.info("密码长度不够!")
+                    Toast.info("密码长度不够!", 1)
                 }
                 break;
             case "password2":
                 if(hasPassword2Error){
-                    Toast.info("两次密码不相同!")
+                    Toast.info("两次密码不相同!", 1)
                 }
                 break;
         }
@@ -30,9 +31,10 @@ class Register extends React.Component {
     render() {
         const {phoneNumber, password1, password2,
             hasPhoneNumberError, hasPassword1Error, hasPassword2Error,
-            phoneNumberChange, password1Change, password2Change} = registerStore;
+            phoneNumberChange, password1Change, password2Change,
+            hasError, register} = registerStore;
         return (
-            <div className={styles.container}>
+            <div className={cx(styles.container, "register-container")}>
                 <header>
                     <div className={styles.backto} onClick={goBack}>
                         <Icon type="left" size='lg' className={styles.backIcon}/>
@@ -73,7 +75,7 @@ class Register extends React.Component {
                             确认密码
                         </InputItem>
                     </List>
-                    <Button type="primary" className={styles.btnRegister}>注册</Button>
+                    <Button type="primary" className={styles.btnRegister} disabled={hasError} onClick={register}>注册</Button>
                 </div>
             </div>
         );

@@ -1,0 +1,68 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .btnClose {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    z-index: 999;
+  }
+  .main {
+    flex: 1;
+    background: #fff;
+    padding-top: 15vh;
+    .btnLogin {
+      font-size: 30px;
+      margin: 60px 40px 0 40px;
+      color: #000000;
+      padding: 20px 0;
+      height: auto;
+      border-radius: 20px;
+    }
+    .opera {
+      margin: 30px 40px 0 40px;
+      overflow: hidden;
+      color: #bbbbbb;
+      font-size: 22px;
+      .findoutPwd {
+        float: left;
+      }
+      .register {
+        float: right;
+      }
+    }
+    .btnWechatLogin{
+      position: absolute;
+      top: 85vh;
+      left: 0;
+      right: 0;
+    }
+    .otherWays{
+      position: absolute;
+      top: 82vh;
+      left: 0;
+      right: 0;
+      color: #bbbbbb;
+      font-size: 22px;
+      text-align: center;
+      z-index: 999;
+      .text {
+        padding:0 40px;
+        background: #ffffff;
+      }
+      .line {
+        border-bottom: 1px solid #cccccc;
+        position: absolute;
+        top: 16px;
+        left: 0;
+        right: 0;
+        z-index: -1;
+      }
+    }
+  }
+}

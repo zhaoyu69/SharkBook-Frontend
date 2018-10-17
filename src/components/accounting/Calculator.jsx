@@ -192,7 +192,7 @@ class Calculator extends React.Component {
         switch (key) {
             case "完成":
                 if(["0.00","0.0","0"].includes(totalPrice)){
-                    Toast.info(<p className={styles.toast}>请输入金额!</p>, 1);
+                    Toast.info("请输入金额!", 1);
                 } else {
                     // todo:完成一笔记账(active, remarks. price, time)
                     console.log("active:", activeItem);

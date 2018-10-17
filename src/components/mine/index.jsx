@@ -9,7 +9,11 @@ import {goto} from "utils/go";
 @observer
 class Mine extends React.Component {
     render() {
-        const {isLogin} = globalStore;
+        const {isLogin, user} = globalStore;
+        const avatar = isLogin?"/static/images/default_avatar.png":"/static/images/nologin_header@3x.png";
+        const username = isLogin?user.get("username"):"未登录";
+        const avatarClick = ()=>goto(isLogin?"/mine/userInfos":"/login/wechat");
+
         return (
             <div className={styles.container}>
                 <header>
@@ -17,9 +21,9 @@ class Mine extends React.Component {
                         <img src="/static/images/upgrade_calendar@3x.png" alt=""/>
                         <span>打卡</span>
                     </div>
-                    <dl className={styles.user} onClick={()=>goto("/login/wechat")}>
-                        <dt><img src="/static/images/nologin_header@3x.png" alt=""/></dt>
-                        <dd>未登录</dd>
+                    <dl className={styles.user} onClick={avatarClick}>
+                        <dt><img src={avatar} alt=""/></dt>
+                        <dd>{username}</dd>
                     </dl>
                     <Flex className={styles.overview}>
                         <Flex.Item>
