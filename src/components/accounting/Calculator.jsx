@@ -185,7 +185,7 @@ class Calculator extends React.Component {
 
     calClick = (e) => {
         const {store} = this.props;
-        const {totalPrice, remarks, accTime} = store;
+        const {totalPrice, remarks, accTime, makeAccount} = store;
         const firstone = totalPrice[0];
         const activeItem = toJS(store.activeItem);
         const key = e.target.innerHTML;
@@ -194,11 +194,7 @@ class Calculator extends React.Component {
                 if(["0.00","0.0","0"].includes(totalPrice)){
                     Toast.info("请输入金额!", 1);
                 } else {
-                    // todo:完成一笔记账(active, remarks. price, time)
-                    console.log("active:", activeItem);
-                    console.log("remarks:", remarks);
-                    console.log("price:", totalPrice);
-                    console.log("time:", accTime);
+                    makeAccount(activeItem, remarks, totalPrice, accTime);
                 }
                 break;
             case "=":

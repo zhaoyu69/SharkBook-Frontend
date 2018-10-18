@@ -83,6 +83,11 @@ export default class AccountingStore{
     @action timeSelect = (time) => {
         this.accTime = moment(time);
     };
+
+    // 完成记账 (记账类型，备注，价格，时间)
+    @action makeAccount=(activeItem, remarks, totalPrice, accTime)=> {
+        console.log(activeItem, remarks, totalPrice, accTime);
+    }
 }
 
 export const accountingStore = new AccountingStore();

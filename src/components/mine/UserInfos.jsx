@@ -1,17 +1,22 @@
 import React from 'react';
 import {observer} from "mobx-react";
-import {goBack, goto} from "utils/go";
+import {goBack} from "utils/go";
 import styles from './UserInfos.less';
-import {Icon, List, Button} from 'antd-mobile';
-import {globalStore} from "stores/GlobalStore";
+import {Icon, List, Button, ActionSheet, Modal, Toast} from 'antd-mobile';
 import {loginStore} from "stores/LoginStore";
 import './UserInfos.module.less';
-import {ActionSheet} from "antd-mobile";
+import {userStore} from "stores/UserStore";
+const prompt = Modal.prompt;
 
 @observer
 class UserInfos extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        userStore.getUser();
+    }
+
     render() {
-        const {user} = globalStore;
+        const {user} = userStore;
         return (
             <div className={cx(styles.container, "userInfos-container")}>
                 <header>
@@ -19,26 +24,26 @@ class UserInfos extends React.Component {
                         <Icon type="left" size='lg' className={styles.backIcon}/>
                         <span>返回</span>
                     </div>
-                    注册
+                    个人信息
                 </header>
                 <div className={styles.main}>
                     <List>
                         <List.Item
                             extra={<img src="/static/images/default_avatar.png" alt=""/>}
-                            onClick={this.avatarChange}
+                            onClick={this.avatarClick}
                         >
                             头像
                         </List.Item>
                         <List.Item extra={user.get("uid")}>ID</List.Item>
                         <List.Item
                             extra={<span>{user.get("nickname") || <span className={styles.unset}>未设置</span>} <Icon type="right"/></span>}
-                            onClick={()=>{}}
+                            onClick={this.nicknameClick}
                         >
                             昵称
                         </List.Item>
                         <List.Item
                             extra={<span>{user.get("sex") || <span className={styles.unset}>未设置</span>} <Icon type="right"/></span>}
-                            onClick={this.sexChange}
+                            onClick={this.sexClick}
                         >
                             性别
                         </List.Item>
@@ -61,7 +66,7 @@ class UserInfos extends React.Component {
         );
     }
 
-    avatarChange=()=>{
+    avatarClick=()=>{
         const BUTTONS = ['拍照', '从相册选择', '取消'];
         ActionSheet.showActionSheetWithOptions({
                 options: BUTTONS,
@@ -82,7 +87,29 @@ class UserInfos extends React.Component {
             });
     };
 
-    sexChange=()=>{
+    nicknameClick=()=>{
+        const {user, updateUserInfo} = userStore;
+        prompt('昵称', '',
+            [
+                {
+                    text: '取消',
+                    // onPress: value => console.log(value)
+                },
+                {
+                    text: '确定',
+                    onPress: value => {
+                        if(value.replace(/\s/g, '').length) {
+                            updateUserInfo("nickname", value);
+                        } else {
+                            Toast.fail("昵称不能为空!", 1);
+                        }
+                    }
+                },
+            ], 'default', user.get("nickname"), ['请输入昵称'])
+    };
+
+    sexClick=()=>{
+        const {updateUserInfo} = userStore;
         const BUTTONS = ['男', '女', '取消'];
         ActionSheet.showActionSheetWithOptions({
                 options: BUTTONS,
@@ -99,6 +126,7 @@ class UserInfos extends React.Component {
                 switch (text) {
                     case "男":
                     case "女":
+                        updateUserInfo("sex", text);
                         break;
                 }
             });

@@ -16,6 +16,10 @@ export default class GlobalStore {
         return Parse.User.current();
     }
 
+    get userId() {
+        return Parse.User.current().id;
+    }
+
     get isLogin() {
         return !!Parse.User.current();
     }

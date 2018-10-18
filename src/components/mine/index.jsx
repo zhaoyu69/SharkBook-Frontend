@@ -11,7 +11,7 @@ class Mine extends React.Component {
     render() {
         const {isLogin, user} = globalStore;
         const avatar = isLogin?"/static/images/default_avatar.png":"/static/images/nologin_header@3x.png";
-        const username = isLogin?user.get("username"):"未登录";
+        const username = isLogin?user.get("nickname"):"未登录";
         const avatarClick = ()=>goto(isLogin?"/mine/userInfos":"/login/wechat");
 
         return (

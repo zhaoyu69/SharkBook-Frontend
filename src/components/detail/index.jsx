@@ -3,12 +3,15 @@ import {observer} from "mobx-react";
 import styles from './index.less';
 import {NoticeBar, SwipeAction, List} from 'antd-mobile';
 import Footer from "components/footer";
+import './index.module.less';
+import {globalStore} from "stores/GlobalStore";
 
 @observer
 class Detail extends React.Component {
     render() {
+        const {isLogin} = globalStore;
         return (
-            <div className={styles.detail}>
+            <div className={cx(styles.container, "detail-container")}>
                 <header><img src="/static/images/detail_share_shark@3x.png" alt=""/></header>
                 {/*总览*/}
                 <div className={styles.overview}>
@@ -30,12 +33,12 @@ class Detail extends React.Component {
                     </dl>
                 </div>
                 {/*通知*/}
-                <div className={styles.noticeBar}>
+                {isLogin?null:<div className={styles.noticeBar}>
                     <NoticeBar icon={<img className={styles.icon} src="/static/images/no_network@3x.png" alt=""/>}
                                style={{backgroundColor: "transparent"}}>
                         <p>登录后数据可以实时备份，更安全哦</p>
                     </NoticeBar>
-                </div>
+                </div>}
                 {/*列表*/}
                 <div className={styles.list}>
                     <div>
