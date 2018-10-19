@@ -1,0 +1,99 @@
+import { observable, action, computed } from "mobx";
+import AccountingService from "services/AccountService";
+import TypeService from "services/TypeService";
+import {globalStore} from "stores/GlobalStore";
+import {goto} from "utils/go";
+
+export default class AccountStore{
+    @observable payList = [];
+    @observable incomeList = [];
+    @observable tabPage = 0; // 支出/收入的tab
+    @observable activeItem; // 激活的类别
+    @observable totalPrice = "0.00"; // 账单金额
+    @observable remarks = ""; // 备注
+    @observable accTime = moment().toDate(); // 记账日期
+
+    // 获取类别库
+    @action getUserTypes=async()=> {
+        const userTypes = await TypeService.getUserTypes(globalStore.userId);
+        // 按收入/支出分组
+        const {pay, income} = _.groupBy(userTypes, "classify");
+        // 按编号排序
+        this.payList = _.sortBy(pay, "number");
+        this.incomeList =  _.sortBy(income, "number");
+    };
+
+    @action listItemClick = (list, item) => {
+        AccountingService.listItemClick(list, item);
+        this.activeItem = item;
+    };
+
+    // 切换支出/收入
+    @action changePage = (page) => {
+        this.initListActives();
+        this.tabPage = page;
+    };
+
+    @action initListActives = () => {
+        AccountingService.initListActives(this.payList);
+        AccountingService.initListActives(this.incomeList);
+    };
+
+    // 是否有激活的类别，有则显示计算表盘
+    @computed get activeStatus(){
+        const findPayActive = _.findIndex(this.payList, (o)=>o.active===1) !== -1;
+        const findIncomeActive = _.findIndex(this.incomeList, (o)=>o.active===1) !== -1;
+        return findPayActive || findIncomeActive
+    }
+
+    // 是否计算完成 右下角显示完成或=
+    @computed get calCompleted(){
+        const lastone = this.totalPrice[this.totalPrice.length-1];
+        const firstone = this.totalPrice[0];
+        // 末尾不是+也不是- 但是包含着+或-
+        let nums = [];
+        if(lastone!=="+" && lastone!=="-"){
+            if(this.totalPrice.includes("+")){
+                nums = this.totalPrice.split("+");
+            }
+            else if(this.totalPrice.includes("-")){
+                nums = this.totalPrice.split("-");
+                if(firstone==="-"){
+                    nums = _.drop(nums, 2);
+                }
+                console.log(nums);
+            }
+        }
+        // nums为空代表完成 不为空代表需要计算=
+        return !nums.length;
+    }
+
+    // 写备注
+    @action writeRemarks = (remarks) => {
+        this.remarks = remarks;
+    };
+
+    // 是否是今天
+    @computed get isToday(){
+        return moment(this.accTime).startOf('day').isSame(moment().startOf('day'));
+    };
+
+    // 时间选择
+    @action timeSelect = (time) => {
+        this.accTime = moment(time).toDate();
+    };
+
+    // 完成记账 (账单类别(Type)，备注，价格(Number)，时间(Date))
+    @action makeAccount=async()=> {
+        const {activeItem, totalPrice, remarks, accTime} = this;
+        const typeId = activeItem.objectId;
+        const price = Number(totalPrice.replace(/[+-]/g, ''));
+        const account = await AccountingService.makeAccount(typeId, remarks, price, accTime);
+        console.log(account);
+        this.initListActives();
+        globalStore.closeAccounting();
+        goto("/detail");
+    };
+}
+
+export const accountStore = new AccountStore();

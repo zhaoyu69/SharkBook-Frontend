@@ -3,6 +3,7 @@ import {observer} from "mobx-react";
 import styles from './Calculator.less';
 import {Toast, DatePicker} from 'antd-mobile';
 import {toJS} from "mobx";
+import {accountStore as store} from "stores/AccountStore";
 
 @observer
 class Calculator extends React.Component {
@@ -11,7 +12,7 @@ class Calculator extends React.Component {
     }
 
     render() {
-        const {totalPrice, calCompleted, writeRemarks, remarks, isToday, timeSelect, accTime} = this.props.store;
+        const {totalPrice, calCompleted, writeRemarks, remarks, isToday, timeSelect, accTime} = store;
         return (
             <div className={styles.calculator}>
                 <div className={styles.line}>
@@ -68,7 +69,6 @@ class Calculator extends React.Component {
     }
 
     keyClick = (e) => {
-        const {store} = this.props;
         const {totalPrice} = store;
         const key = e.target.innerHTML;
         // 负数问题 ok
@@ -105,8 +105,11 @@ class Calculator extends React.Component {
                 store.totalPrice += key;
                 break;
             case "+":
+                if(lastone==="."){
+                    store.totalPrice = totalPrice.substring(0, totalPrice.length-1) + "+";
+                }
                 // +在末尾 不再+
-                if(lastone==="+"){
+                else if(lastone==="+"){
                     return;
                 }
                 // +不在末尾 但是包含+ 计算值(+) 再加上+号
@@ -137,8 +140,11 @@ class Calculator extends React.Component {
                 }
                 break;
             case "-":
+                if(lastone==="."){
+                    store.totalPrice = totalPrice.substring(0, totalPrice.length-1) + "-";
+                }
                 // -在末尾 不再-
-                if(lastone==="-"){
+                else if(lastone==="-"){
                     return;
                 }
                 // -不在末尾 但是开头是- 说明第一个数是负数 计算值(-)
@@ -174,7 +180,6 @@ class Calculator extends React.Component {
 
     backClick = () => {
         // 退格到最后一位 变成0
-        const {store} = this.props;
         const {totalPrice} = store;
         if(totalPrice.length<=1){
             store.totalPrice = "0";
@@ -184,17 +189,15 @@ class Calculator extends React.Component {
     };
 
     calClick = (e) => {
-        const {store} = this.props;
-        const {totalPrice, remarks, accTime, makeAccount} = store;
+        const {totalPrice, makeAccount} = store;
         const firstone = totalPrice[0];
-        const activeItem = toJS(store.activeItem);
         const key = e.target.innerHTML;
         switch (key) {
             case "完成":
                 if(["0.00","0.0","0"].includes(totalPrice)){
                     Toast.info("请输入金额!", 1);
                 } else {
-                    makeAccount(activeItem, remarks, totalPrice, accTime);
+                    makeAccount();
                 }
                 break;
             case "=":

@@ -4,10 +4,10 @@ import {Tabs} from 'antd-mobile';
 import styles from './index.less';
 import {globalStore} from "stores/GlobalStore";
 import TweenOne from 'rc-tween-one';//ant-motion
-import PayList from "components/accounting/PayList";
-import IncomeList from "components/accounting/IncomeList";
-import {accountingStore} from "stores/AccountingStore";
-import Calculator from "components/accounting/Calculator";
+import AccountList from "components/account/AccountList";
+import {accountStore as store} from "stores/AccountStore";
+import Calculator from "components/account/Calculator";
+import {toJS} from "mobx/lib/mobx";
 
 const tabs = [
     { title: '支出', page: 0 },
@@ -15,10 +15,15 @@ const tabs = [
 ];
 
 @observer
-class Accounting extends React.Component {
+class Account extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        store.getUserTypes();
+    }
+
     renderTabBar = (props) => {
         const {tabs, activeTab} = props;
-        const {changePage} = accountingStore;
+        const {changePage} = store;
         return (
             <div className={styles.tabbar}>
                 <ul className={styles.tablist}>
@@ -38,12 +43,14 @@ class Accounting extends React.Component {
 
     closeAccounting = () => {
         globalStore.closeAccounting();
-        accountingStore.initListActives();
+        store.initListActives();
     };
 
     render() {
         const {accTop} = globalStore;
-        const {tabPage, activeStatus} = accountingStore;
+        const {tabPage, activeStatus} = store;
+        const payList = toJS(store.payList);
+        const incomeList = toJS(store.incomeList);
         return (
             <div>
                 <TweenOne
@@ -54,17 +61,17 @@ class Accounting extends React.Component {
                           renderTabBar={this.renderTabBar}
                     >
                         <div className={styles.tabContent}>
-                            <PayList store={accountingStore}/>
+                            <AccountList list={payList}/>
                         </div>
                         <div className={styles.tabContent}>
-                            <IncomeList store={accountingStore}/>
+                            <AccountList list={incomeList}/>
                         </div>
                     </Tabs>
                 </TweenOne>
-                {activeStatus?<Calculator store={accountingStore}/>:null}
+                {activeStatus?<Calculator />:null}
             </div>
         );
     }
 }
 
-export default Accounting;
+export default Account;

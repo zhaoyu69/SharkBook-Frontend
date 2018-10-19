@@ -12,7 +12,7 @@ import Detail from "components/detail";
 import Chart from "components/chart";
 import Discover from "components/discover";
 import Mine from "components/mine";
-import Accounting from "components/accounting";
+import Account from "components/account";
 import WechatLogin from "components/login/Wechat";
 import PhoneLogin from "components/login/Phone";
 import Register from "components/register/index";
@@ -36,7 +36,7 @@ ReactDom.render(
                 <Route exact path="/login/phone" component={PhoneLogin}/>
                 <Route exact path="/register" component={Register}/>
             </Switch>
-            <Accounting />
+            <Account />
         </div>
     </Router>,
     document.getElementById('root')
