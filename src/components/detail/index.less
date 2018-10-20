@@ -15,6 +15,19 @@
     flex: 1;
     background: #ffffff;
     color: #9a9a9a;
+    position: relative;
+    overflow: scroll;
+    .noData {
+      text-align: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 40%;
+      transform: translate(0, -50%);
+      img {
+        width:15vw;
+      }
+    }
     .listLine {
       padding: 15px 20px;
       border-bottom: 1px solid #dddddd;
@@ -43,8 +56,9 @@
   }
   .overview {
     padding: 10px 0;
-    display: flex;
+    //display: flex;
     .datePicker {
+      float: left;
       width: 20vw;
       padding: 0 30px;
       .year {
@@ -71,7 +85,8 @@
       }
     }
     .income, .pay {
-      width: 40vw;
+      float: left;
+      width: 30vw;
       padding-left: 30px;
       .title {
         color: #9a9a9a;

@@ -15,26 +15,38 @@ class Detail extends React.Component {
         store.getAccounts();
     }
 
+    accountClick=(e)=>{
+        // console.log(e.target.getAttribute('class'));
+    };
+
     getList=()=>{
-        const timeAccountsGroup = toJS(store.timeAccountsGroup);
-        const {showMonth} = store;
-        if(!timeAccountsGroup) {
-            return null;
+        const timeAccountsGroup = toJS(store.timeAccountsByDate);
+        const {showMonth, dates, getDay, getPaysOrIncomesByDate, removeAccount} = store;
+        if(!dates.length) {
+            return (
+                <div className={styles.noData}>
+                    <img src="/static/images/no_data@3x.png" alt=""/>
+                    <p>暂无数据</p>
+                </div>
+            );
         }
-        const dates = Object.keys(timeAccountsGroup);
         return dates.map(date => {
-            const accounts = timeAccountsGroup[date];
+            const timeAccounts = timeAccountsGroup[date];
+            const week = getDay(timeAccounts[0]);
+            const {pays, incomes} = getPaysOrIncomesByDate(timeAccounts);
             return (
                 <div key={date}>
                     <div className={styles.listLine}>
                         <div className={styles.listdate}>
-                            {showMonth}月{date}日 星期六
+                            {showMonth}月{date}日 星期{week}
                         </div>
                         <div className={styles.listTotal}>
-                            支出：0.00 收入：0.00
+                            收入：{incomes} &nbsp;&nbsp; 支出：{pays}
                         </div>
                     </div>
-                    {accounts.map((acc, idx) => {
+                    {timeAccounts.map((acc, idx) => {
+                        const {price, objectId} = acc;
+                        const {listIcon, name, classify} = acc.userType.type;
                         return (
                             <SwipeAction
                                 key={date + "-" + idx}
@@ -43,20 +55,20 @@ class Detail extends React.Component {
                                 right={[
                                     {
                                         text: '删除',
-                                        onPress: () => console.log('delete'),
+                                        onPress: () => removeAccount(objectId),
                                         style: { backgroundColor: '#F4333C', color: 'white' },
                                     },
                                 ]}
-                                onOpen={() => console.log('global open')}
-                                onClose={() => console.log('global close')}
+                                onOpen={() => {}}
+                                onClose={() => {}}
                             >
                                 <List.Item
-                                    thumb="/static/images/e_commodity_l@3x.png"
-                                    extra="0.00"
-                                    onClick={() => console.log('List.Item clicked!')}
+                                    thumb={listIcon}
+                                    extra={(classify === "pay"?'-' : '')+ price}
+                                    onClick={(e) => this.accountClick(e)}
                                     className={styles.listItem}
                                 >
-                                    日用
+                                    {name}
                                 </List.Item>
                             </SwipeAction>
                         )
@@ -68,7 +80,7 @@ class Detail extends React.Component {
 
     render() {
         const {isLogin} = globalStore;
-        const {timeSelect, showYear, showMonth, showTime} = store;
+        const {timeSelect, showYear, showMonth, showTime, paysByMonth, incomesByMonth} = store;
         return (
             <div className={cx(styles.container, "detail-container")}>
                 <header><img src="/static/images/detail_share_shark@3x.png" alt=""/></header>
@@ -93,11 +105,11 @@ class Detail extends React.Component {
                     </dl>
                     <dl className={styles.income}>
                         <dt className={styles.title}>收入</dt>
-                        <dd className={styles.count}>0.00</dd>
+                        <dd className={styles.count}>{incomesByMonth}</dd>
                     </dl>
                     <dl className={styles.pay}>
                         <dt className={styles.title}>支出</dt>
-                        <dd className={styles.count}>0.00</dd>
+                        <dd className={styles.count}>{paysByMonth}</dd>
                     </dl>
                 </div>
                 {/*通知*/}

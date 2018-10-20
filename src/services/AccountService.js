@@ -23,4 +23,8 @@ export default class AccountService {
     static async getAccounts(userId) {
         return axios.post('/api/account/getAccounts', {userId}).then(getData).catch(getError);
     }
+
+    static async removeAccount(accountId) {
+        return axios.post('/api/account/removeAccount', {accountId}).then(getData).catch(getError);
+    }
 }

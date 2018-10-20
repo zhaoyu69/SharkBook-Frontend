@@ -16,11 +16,6 @@ const tabs = [
 
 @observer
 class Account extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        store.getUserTypes();
-    }
-
     renderTabBar = (props) => {
         const {tabs, activeTab} = props;
         const {changePage} = store;

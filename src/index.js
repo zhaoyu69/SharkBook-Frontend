@@ -35,6 +35,7 @@ ReactDom.render(
                 <Route exact path="/login/wechat" component={WechatLogin}/>
                 <Route exact path="/login/phone" component={PhoneLogin}/>
                 <Route exact path="/register" component={Register}/>
+                <Route path="*" component={Detail}/>
             </Switch>
             <Account />
         </div>

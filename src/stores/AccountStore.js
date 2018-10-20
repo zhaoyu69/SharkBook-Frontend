@@ -3,6 +3,7 @@ import AccountingService from "services/AccountService";
 import TypeService from "services/TypeService";
 import {globalStore} from "stores/GlobalStore";
 import {goto} from "utils/go";
+import {detailStore} from "stores/DetailStore";
 
 export default class AccountStore{
     @observable payList = [];
@@ -13,9 +14,15 @@ export default class AccountStore{
     @observable remarks = ""; // 备注
     @observable accTime = moment().toDate(); // 记账日期
 
+    @action initData=()=>{
+        this.activeItem=undefined;
+        this.totalPrice="0.00";
+        this.remarks="";
+    };
+
     // 获取类别库
     @action getUserTypes=async()=> {
-        const userTypes = await TypeService.getUserTypes(globalStore.userId);
+        const userTypes = await TypeService.getUserTypes(globalStore.user);
         // 按收入/支出分组
         const {pay, income} = _.groupBy(userTypes, "classify");
         // 按编号排序
@@ -89,10 +96,11 @@ export default class AccountStore{
         const typeId = activeItem.objectId;
         const price = Number(totalPrice.replace(/[+-]/g, ''));
         const account = await AccountingService.makeAccount(typeId, remarks, price, accTime);
-        console.log(account);
         this.initListActives();
+        this.initData();
         globalStore.closeAccounting();
-        goto("/detail");
+        detailStore.getAccounts();
+        goto("/");
     };
 }
 
