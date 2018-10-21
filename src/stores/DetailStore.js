@@ -1,10 +1,14 @@
 import { observable, action, computed, toJS } from "mobx";
 import AccountService from "services/AccountService";
 import {globalStore} from "stores/GlobalStore";
+import {accountStore} from "stores/AccountStore";
 
 export default class DetailStore{
     @observable accounts=[];
     @observable showTime=moment();
+    @observable accountId = "";
+    @observable accContentFocus={};
+    @observable accPriceFocus={};
 
     // 显示年
     @computed get showYear() {
@@ -86,6 +90,33 @@ export default class DetailStore{
     @action removeAccount=async(accountId)=>{
         await AccountService.removeAccount(accountId);
         this.getAccounts();
+    };
+
+    // 点击账单图标更新
+    @action accIconClick=(account)=>{
+        this.accountId = account.objectId;
+        globalStore.showAccounting(account);
+        accountStore.isUpdateChange(true);
+    };
+
+    // 点击账单内容更新
+    @action accContentChange=(account, name)=>{
+        const _account = this.accounts.find(acc=>acc.objectId === account.objectId);
+        _account.name = name;
+        this.accounts = toJS(this.accounts);
+        AccountService.updateAccount(account.objectId, "name", name);
+    };
+
+    // 点击账单金额更新
+    @action accPriceChange=(account, price)=>{
+        const num_price = Number(price.replace(/[+-]/g, ''));
+        if(isNaN(num_price)) {
+            return;
+        }
+        const _account = this.accounts.find(acc=>acc.objectId === account.objectId);
+        _account.price = num_price;
+        this.accounts = toJS(this.accounts);
+        AccountService.updateAccount(account.objectId, "price", num_price);
     };
 }
 

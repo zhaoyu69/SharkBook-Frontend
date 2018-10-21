@@ -5,13 +5,14 @@ export default class GlobalStore {
     @observable accTop = "100vh";
 
     // 打开记账
-    @action showAccounting = () => {
+    @action showAccounting = (account) => {
         this.accTop = "0";
-        accountStore.getUserTypes();
+        accountStore.getUserTypes(account);
     };
     // 关闭记账
     @action closeAccounting = () => {
         this.accTop = "100vh";
+        accountStore.isUpdateChange(false);
     };
 
     get user() {

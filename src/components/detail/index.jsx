@@ -2,7 +2,7 @@ import React from 'react';
 import {toJS} from "mobx";
 import {observer} from "mobx-react";
 import styles from './index.less';
-import {NoticeBar, SwipeAction, List, DatePicker} from 'antd-mobile';
+import {NoticeBar, SwipeAction, List, DatePicker, InputItem} from 'antd-mobile';
 import Footer from "components/footer";
 import './index.module.less';
 import {globalStore} from "stores/GlobalStore";
@@ -15,13 +15,12 @@ class Detail extends React.Component {
         store.getAccounts();
     }
 
-    accountClick=(e)=>{
-        // console.log(e.target.getAttribute('class'));
-    };
-
     getList=()=>{
         const timeAccountsGroup = toJS(store.timeAccountsByDate);
-        const {showMonth, dates, getDay, getPaysOrIncomesByDate, removeAccount} = store;
+        const {showMonth, dates, getDay, getPaysOrIncomesByDate, removeAccount,
+            accIconClick, accContentChange, accPriceChange} = store;
+        const accContentFocus = toJS(store.accContentFocus);
+        const accPriceFocus = toJS(store.accPriceFocus);
         if(!dates.length) {
             return (
                 <div className={styles.noData}>
@@ -46,7 +45,8 @@ class Detail extends React.Component {
                     </div>
                     {timeAccounts.map((acc, idx) => {
                         const {price, objectId} = acc;
-                        const {listIcon, name, classify} = acc.userType.type;
+                        const {listIcon, classify} = acc.userType.type;
+                        const name = acc.name?acc.name : acc.userType.type.name;
                         return (
                             <SwipeAction
                                 key={date + "-" + idx}
@@ -63,12 +63,27 @@ class Detail extends React.Component {
                                 onClose={() => {}}
                             >
                                 <List.Item
-                                    thumb={listIcon}
-                                    extra={(classify === "pay"?'-' : '')+ price}
-                                    onClick={(e) => this.accountClick(e)}
+                                    thumb={<img src={listIcon} alt="" onClick={()=>accIconClick(acc)}/>}
+                                    extra={
+                                        <InputItem
+                                            style={{textAlign: "right",
+                                                border: accPriceFocus[objectId]? "1px solid #ccc":"none"}}
+                                            onFocus={() => store.accPriceFocus[objectId] = true}
+                                            onBlur={() => store.accPriceFocus[objectId] = false}
+                                            onChange={(price) => accPriceChange(acc, price)}
+                                            value={(classify === "pay"?'-' : '')+ price}
+                                        />
+                                    }
+                                    onClick={() => {}}
                                     className={styles.listItem}
                                 >
-                                    {name}
+                                    <InputItem
+                                        style={{ border: accContentFocus[objectId]? "1px solid #ccc":"none" }}
+                                        onFocus={() => store.accContentFocus[objectId] = true}
+                                        onBlur={() => store.accContentFocus[objectId] = false}
+                                        onChange={(name) => accContentChange(acc, name)}
+                                        value={name}
+                                    />
                                 </List.Item>
                             </SwipeAction>
                         )

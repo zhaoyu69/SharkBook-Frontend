@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
 import AccountingService from "services/AccountService";
 import TypeService from "services/TypeService";
 import {globalStore} from "stores/GlobalStore";
@@ -13,6 +13,20 @@ export default class AccountStore{
     @observable totalPrice = "0.00"; // 账单金额
     @observable remarks = ""; // 备注
     @observable accTime = moment().toDate(); // 记账日期
+    // 明细页点击更新
+    @observable isUpdate = false;
+
+    @action isUpdateChange=(isUpdate)=>{
+        this.isUpdate = isUpdate;
+    };
+
+    @action init=()=>{
+        this.initListActives();
+        this.initData();
+        globalStore.closeAccounting();
+        detailStore.getAccounts();
+        goto("/");
+    };
 
     @action initData=()=>{
         this.activeItem=undefined;
@@ -21,18 +35,26 @@ export default class AccountStore{
     };
 
     // 获取类别库
-    @action getUserTypes=async()=> {
+    @action getUserTypes=async(account)=> {
         const userTypes = await TypeService.getUserTypes(globalStore.user);
-        // 按收入/支出分组
+        // 明细页更新 设置初始激活类别
+        if(account.userType) {
+            AccountingService.setActive(userTypes, account.userType.type.objectId);
+        }
         const {pay, income} = _.groupBy(userTypes, "classify");
-        // 按编号排序
         this.payList = _.sortBy(pay, "number");
-        this.incomeList =  _.sortBy(income, "number");
+        this.incomeList = _.sortBy(income, "number");
     };
 
-    @action listItemClick = (list, item) => {
-        AccountingService.listItemClick(list, item);
+    @action listItemClick = async (list, item) => {
+        AccountingService.setActive(list, item.objectId);
         this.activeItem = item;
+        // 明细页点击更新类别
+        if(this.isUpdate) {
+            await AccountingService.updateUserType(detailStore.accountId, item.objectId);
+            await AccountingService.updateAccount(detailStore.accountId, "name", "");
+            this.init();
+        }
     };
 
     // 切换支出/收入
@@ -48,6 +70,10 @@ export default class AccountStore{
 
     // 是否有激活的类别，有则显示计算表盘
     @computed get activeStatus(){
+        // 明细页点击更新 不显示键盘
+        if(this.isUpdate) {
+            return false;
+        }
         const findPayActive = _.findIndex(this.payList, (o)=>o.active===1) !== -1;
         const findIncomeActive = _.findIndex(this.incomeList, (o)=>o.active===1) !== -1;
         return findPayActive || findIncomeActive
@@ -96,11 +122,7 @@ export default class AccountStore{
         const typeId = activeItem.objectId;
         const price = Number(totalPrice.replace(/[+-]/g, ''));
         const account = await AccountingService.makeAccount(typeId, remarks, price, accTime);
-        this.initListActives();
-        this.initData();
-        globalStore.closeAccounting();
-        detailStore.getAccounts();
-        goto("/");
+        this.init();
     };
 }
 
