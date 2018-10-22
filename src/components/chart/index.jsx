@@ -8,7 +8,9 @@ class Chart extends React.Component {
     render() {
         return (
             <div className={styles.container}>
-                <header>Chart</header>
+                <header>
+                    Chart
+                </header>
                 <div className={styles.main}>
 
                 </div>
