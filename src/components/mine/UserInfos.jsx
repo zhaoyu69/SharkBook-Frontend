@@ -36,25 +36,29 @@ class UserInfos extends React.Component {
                         </List.Item>
                         <List.Item extra={user.get("uid")}>ID</List.Item>
                         <List.Item
-                            extra={<span>{user.get("nickname") || <span className={styles.unset}>未设置</span>} <Icon type="right"/></span>}
+                            arrow="horizontal"
+                            extra={<span>{user.get("nickname") || <span className={styles.unset}>未设置</span>}</span>}
                             onClick={this.nicknameClick}
                         >
                             昵称
                         </List.Item>
                         <List.Item
-                            extra={<span>{user.get("sex") || <span className={styles.unset}>未设置</span>} <Icon type="right"/></span>}
+                            arrow="horizontal"
+                            extra={<span>{user.get("sex") || <span className={styles.unset}>未设置</span>}</span>}
                             onClick={this.sexClick}
                         >
                             性别
                         </List.Item>
                         <List.Item
-                            extra={<span>{user.get("username") || <span className={styles.unset}>未绑定</span>} <Icon type="right"/></span>}
+                            arrow="horizontal"
+                            extra={<span>{user.get("username") || <span className={styles.unset}>未绑定</span>}</span>}
                             onClick={()=>{}}
                         >
                             手机号
                         </List.Item>
                         <List.Item
-                            extra={<span>{user.get("wechat") || <span className={styles.unset}>未绑定</span>} <Icon type="right"/></span>}
+                            arrow="horizontal"
+                            extra={<span>{user.get("wechat") || <span className={styles.unset}>未绑定</span>}</span>}
                             onClick={()=>{}}
                         >
                             微信
