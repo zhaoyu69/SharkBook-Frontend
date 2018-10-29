@@ -41,6 +41,8 @@
     "antd-mobile": "^2.2.5",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "echarts": "^4.2.0-rc.2",
+    "echarts-for-react": "^2.0.15-beta.0",
     "lodash": "^4.17.10",
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.6",

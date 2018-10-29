@@ -84,23 +84,29 @@ class Chart extends React.Component {
     }
 
     segmentes=()=>{
-        const {segmentedSelectedIndex} = this.state;
+        const {segmentedSelectedIndex, tallySelected} = this.state;
+        const props = {
+            type: tallySelected
+        };
         switch (segmentedSelectedIndex) {
             case 0: return <MyTabs
                 tabs={[
                     {title: "上周", page: 0},
                     {title: "本周", page: 1}
                 ]}
+                {...props}
             />;
             case 1: return <MyTabs
                 tabs={[
                     {title: "本月", page: 0},
                 ]}
+                {...props}
             />;
             case 2: return <MyTabs
                 tabs={[
                     {title: "今年", page: 0},
                 ]}
+                {...props}
             />;
         }
     };

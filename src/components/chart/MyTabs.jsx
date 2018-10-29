@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react";
 import {Tabs} from 'antd-mobile';
 import styles from './MyTabs.less';
+import TabContent from "components/chart/TabContent";
 
 @observer
 class MyTabs extends React.Component {
@@ -38,16 +39,10 @@ class MyTabs extends React.Component {
             <div>
                 <Tabs tabs={tabs}
                       page={page}
-                      onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                      onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                       renderTabBar={this.renderTabBar}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                        Content of first tab
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                        Content of second tab
-                    </div>
+                    <TabContent {...this.props}/>
+                    <TabContent {...this.props}/>
                 </Tabs>
             </div>
         );
