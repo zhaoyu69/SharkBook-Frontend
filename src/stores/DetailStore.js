@@ -66,9 +66,13 @@ export default class DetailStore{
 
     // 获取星期几
     @action getDay(timeAccount) {
-        const week = moment(timeAccount.time).day();
+        let week = moment(timeAccount.time).day();
         const weeks=["一","二","三","四","五","六","日"];
-        return weeks[week - 1];
+        if(week === 0) {
+            week = 7;
+        }
+        week -= 1;
+        return weeks[week];
     }
 
     // 获得日总支出/收入
