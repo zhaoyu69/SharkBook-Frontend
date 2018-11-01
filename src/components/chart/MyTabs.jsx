@@ -2,13 +2,14 @@ import React from 'react';
 import {observer} from "mobx-react";
 import {Tabs} from 'antd-mobile';
 import styles from './MyTabs.less';
-import TabContent from "components/chart/TabContent";
 import {chartStore as store} from "stores/ChartStore";
 import {toJS} from "mobx";
+import LineChart from "components/chart/LineChart";
+import Leaderboard from "components/chart/Leaderboard";
 
 @observer
 class MyTabs extends React.Component {
-    renderTabBar=(props, pageIndex)=>{
+    renderTabBar=(props, index)=>{
         const {changePage} = store;
         const {tabs, activeTab} = props;
         return <div className={styles.tabbar}>
@@ -18,23 +19,25 @@ class MyTabs extends React.Component {
                     return (
                         <li key={page}
                             className={activeTab === page?styles.activeTabli:styles.normalTabli}
-                            onClick={()=>changePage(pageIndex, page)}>{title}</li>
+                            onClick={()=>changePage(index, page)}>{title}</li>
                     )
                 })}
             </ul>
         </div>
     };
     render() {
-        const {tabs, pageIndex} = this.props;
+        const {tabs, segmentedSelectedIndex} = store;
         const pages = toJS(store.pages);
         return (
             <div>
                 <Tabs tabs={tabs}
-                      page={pages[pageIndex]}
-                      renderTabBar={(...args)=>this.renderTabBar(...args, pageIndex)}
+                      page={pages[segmentedSelectedIndex]}
+                      renderTabBar={(...args)=>this.renderTabBar(...args, segmentedSelectedIndex)}
                 >
-                    <TabContent {...this.props}/>
-                    <TabContent {...this.props}/>
+                    <div>
+                        <LineChart/>
+                        <Leaderboard/>
+                    </div>
                 </Tabs>
             </div>
         );

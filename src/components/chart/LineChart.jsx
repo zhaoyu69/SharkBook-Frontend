@@ -298,21 +298,19 @@ class LineChart extends React.Component {
     getOption=()=>{
         // pageIndex 0,1,2代表周月年
         // page 0,1代表tabs的page
-        const {pageIndex} = this.props;
+        const {segmentedSelectedIndex} = store;
         const pages = toJS(store.pages);
         const currentMonthAccounts = toJS(store.currentMonthAccounts);
         const currentYearAccounts = toJS(store.currentYearAccounts);
-        const page = pages[pageIndex];
+        const page = pages[segmentedSelectedIndex];
 
-        switch (pageIndex) {
+        switch (segmentedSelectedIndex) {
             case 0: return this.weekOptions(page);
             case 1: return this.monthOptions(currentMonthAccounts);
             case 2: return this.yearOptions(currentYearAccounts);
         }
     };
-    onChartReadyCallback=(...args)=>{
-        // console.log(args);
-    };
+
     render() {
         return (
             <div className={styles.container}>
@@ -320,8 +318,8 @@ class LineChart extends React.Component {
                     option={this.getOption()}
                     notMerge={true}
                     lazyUpdate={true}
-                    theme={"theme_name"}
-                    onChartReady={this.onChartReadyCallback}
+                    // theme={"theme_name"}
+                    // onChartReady={this.onChartReadyCallback}
                     className={styles.lineChart}
                     // onEvents={EventsDict}
                     // opts={}

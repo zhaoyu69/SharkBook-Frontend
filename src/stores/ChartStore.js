@@ -1,6 +1,8 @@
 import {observable, action, computed, toJS} from "mobx";
 import AccountService from "services/AccountService";
 import {globalStore} from "stores/GlobalStore";
+import MyTabs from "components/chart/MyTabs";
+import React from "react";
 const classifyDict={
     pay: "支出",
     income: "收入"
@@ -11,6 +13,57 @@ export default class ChartStore{
     @observable accounts=[];
     @observable nowTime=moment();
     @observable classify="支出";
+    @observable tallySelectShow=false;
+    @observable segmentedSelectedIndex=0; //默认选择周
+
+    // 选择收入/支出
+    @action tallySelect=(type)=>{
+        this.classify = type;
+        this.tallySelectShow = false;
+    };
+
+    // 切换收入/支出
+    @action checkout=()=>{
+        this.tallySelectShow = !this.tallySelectShow;
+    };
+
+    // 点击蒙层
+    @action maskClick=()=>{
+        this.tallySelectShow = false;
+    };
+
+    // 切换周月年
+    @action onSegmentedChange=(index)=>{
+        this.segmentedSelectedIndex = index;
+    };
+
+    // 根据选择的周月年切换数据
+    @computed get tabs(){
+        switch (this.segmentedSelectedIndex) {
+            case 0: return [
+                {
+                    title: "上周",
+                    page: 0
+                },
+                {
+                    title: "本周",
+                    page: 1
+                }
+            ];
+            case 1: return [
+                {
+                    title: "本月",
+                    page: 0
+                },
+            ];
+            case 2: return [
+                {
+                    title: "今年",
+                    page: 0
+                }
+            ]
+        }
+    }
 
     // 获取所有账单
     @action getAccounts=async()=> {
