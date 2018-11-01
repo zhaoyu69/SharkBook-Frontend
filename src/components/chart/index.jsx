@@ -5,16 +5,17 @@ import styles from './index.less';
 import {SegmentedControl, List} from 'antd-mobile';
 import './index.module.less';
 import MyTabs from "./MyTabs";
+import {chartStore as store} from "stores/ChartStore";
 
 @observer
 class Chart extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            tallySelected: "支出",
             tallySelectShow: false,
             segmentedSelectedIndex: 0
         };
+        store.getAccounts();
     }
 
     checkout=()=>{
@@ -28,20 +29,21 @@ class Chart extends React.Component {
     };
 
     tallySelect=(type)=>{
+        store.classify=type;
         this.setState({
-            tallySelected: type,
             tallySelectShow: false
         })
     };
 
     render() {
-        const {tallySelectShow, segmentedSelectedIndex, tallySelected} = this.state;
+        const {tallySelectShow, segmentedSelectedIndex} = this.state;
+        const {classify} = store;
         return (
             <div className={cx(styles.container, "chart-container")}>
                 <header>
                     <div>
                         <div className={styles.checkout} onClick={this.checkout}>
-                            <span>{tallySelected}</span>
+                            <span>{classify}</span>
                             <img src="/static/images/tally_arrow@3x.png" alt=""/>
                         </div>
                         <SegmentedControl
@@ -57,14 +59,14 @@ class Chart extends React.Component {
                           style={{display:tallySelectShow?"block":"none"}} >
                         <List.Item
                             thumb={<img src="/static/images/tally_select_expenditure@3x.png" alt=""/>}
-                            extra={tallySelected==="支出"?<img src="/static/images/tally_checrmark@3x.png" alt=""/>:null}
+                            extra={classify==="支出"?<img src="/static/images/tally_checrmark@3x.png" alt=""/>:null}
                             onClick={()=>this.tallySelect("支出")}
                         >
                             支出
                         </List.Item>
                         <List.Item
                             thumb={<img src="/static/images/tally_select_income@3x.png" alt=""/>}
-                            extra={tallySelected==="收入"?<img src="/static/images/tally_checrmark@3x.png" alt=""/>:null}
+                            extra={classify==="收入"?<img src="/static/images/tally_checrmark@3x.png" alt=""/>:null}
                             onClick={()=>this.tallySelect("收入")}
                         >
                             收入
@@ -84,9 +86,11 @@ class Chart extends React.Component {
     }
 
     segmentes=()=>{
-        const {segmentedSelectedIndex, tallySelected} = this.state;
+        const {segmentedSelectedIndex} = this.state;
+        const {classify} = store;
         const props = {
-            type: tallySelected
+            type: classify,
+            pageIndex: segmentedSelectedIndex
         };
         switch (segmentedSelectedIndex) {
             case 0: return <MyTabs
@@ -112,8 +116,9 @@ class Chart extends React.Component {
     };
 
     onSegmentedChange = (e) => {
+        store.reset();
         // console.log(`selectedIndex:${e.nativeEvent.selectedSegmentIndex}`);
-        this.setState({segmentedSelectedIndex: e.nativeEvent.selectedSegmentIndex})
+        this.setState({segmentedSelectedIndex: e.nativeEvent.selectedSegmentIndex});
     };
 
     onSegmentedValueChange = (value) => {

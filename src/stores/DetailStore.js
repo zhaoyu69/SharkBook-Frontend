@@ -30,8 +30,9 @@ export default class DetailStore{
 
     // 按年月过滤账单
     @computed get accountsByTime() {
-        return toJS(this.accounts).filter(acc =>
-            moment(acc).year() === this.showYear && moment(acc).month() + 1 === this.showMonth)
+        return toJS(this.accounts).filter(acc =>{
+            return moment(acc.time.iso).year() === this.showYear && moment(acc.time.iso).month() + 1 === this.showMonth
+        });
     }
 
     // 年月账单按支出/收入分组
@@ -56,7 +57,7 @@ export default class DetailStore{
 
     // 按日分组账单
     @computed get timeAccountsByDate() {
-        return _.groupBy(this.accountsByTime, (account) => moment(account.time).date());
+        return _.groupBy(this.accountsByTime, (acc) => moment(acc.time.iso).date());
     }
 
     // 每个月有账单的日子[1,2,...]

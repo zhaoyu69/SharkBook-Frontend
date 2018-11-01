@@ -3,21 +3,13 @@ import {observer} from "mobx-react";
 import {Tabs} from 'antd-mobile';
 import styles from './MyTabs.less';
 import TabContent from "components/chart/TabContent";
+import {chartStore as store} from "stores/ChartStore";
+import {toJS} from "mobx";
 
 @observer
 class MyTabs extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state={
-            page: 0,
-        }
-    }
-
-    changePage=(page)=>{
-        this.setState({page});
-    };
-
-    renderTabBar=(props)=>{
+    renderTabBar=(props, pageIndex)=>{
+        const {changePage} = store;
         const {tabs, activeTab} = props;
         return <div className={styles.tabbar}>
             <ul className={styles.tablist}>
@@ -26,20 +18,20 @@ class MyTabs extends React.Component {
                     return (
                         <li key={page}
                             className={activeTab === page?styles.activeTabli:styles.normalTabli}
-                            onClick={()=>this.changePage(page)}>{title}</li>
+                            onClick={()=>changePage(pageIndex, page)}>{title}</li>
                     )
                 })}
             </ul>
         </div>
     };
     render() {
-        const {tabs} = this.props;
-        const {page} = this.state;
+        const {tabs, pageIndex} = this.props;
+        const pages = toJS(store.pages);
         return (
             <div>
                 <Tabs tabs={tabs}
-                      page={page}
-                      renderTabBar={this.renderTabBar}
+                      page={pages[pageIndex]}
+                      renderTabBar={(...args)=>this.renderTabBar(...args, pageIndex)}
                 >
                     <TabContent {...this.props}/>
                     <TabContent {...this.props}/>

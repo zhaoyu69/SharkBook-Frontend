@@ -12,7 +12,7 @@ export default class AccountStore{
     @observable activeItem; // 激活的类别
     @observable totalPrice = "0.00"; // 账单金额
     @observable remarks = ""; // 备注
-    @observable accTime = moment().toDate(); // 记账日期
+    @observable accTime = moment().startOf('day'); // 记账日期
     // 明细页点击更新
     @observable isUpdate = false;
 
@@ -113,7 +113,7 @@ export default class AccountStore{
 
     // 时间选择
     @action timeSelect = (time) => {
-        this.accTime = moment(time).toDate();
+        this.accTime = moment(time).startOf('day');
     };
 
     // 完成记账 (账单类别(Type)，备注，价格(Number)，时间(Date))
