@@ -7,6 +7,7 @@ import Footer from "components/footer";
 import './index.module.less';
 import {globalStore} from "stores/GlobalStore";
 import {detailStore as store} from "stores/DetailStore";
+import NoData from "components/noData/NoData";
 
 @observer
 class Detail extends React.Component {
@@ -22,12 +23,7 @@ class Detail extends React.Component {
         const accContentFocus = toJS(store.accContentFocus);
         const accPriceFocus = toJS(store.accPriceFocus);
         if(!dates.length) {
-            return (
-                <div className={styles.noData}>
-                    <img src="/static/images/no_data@3x.png" alt=""/>
-                    <p>暂无数据</p>
-                </div>
-            );
+            return <NoData />
         }
         return dates.map(date => {
             const timeAccounts = timeAccountsGroup[date];

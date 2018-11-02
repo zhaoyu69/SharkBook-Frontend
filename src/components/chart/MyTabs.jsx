@@ -3,15 +3,15 @@ import {observer} from "mobx-react";
 import {Tabs} from 'antd-mobile';
 import styles from './MyTabs.less';
 import {chartStore as store} from "stores/ChartStore";
-import {toJS} from "mobx";
 import LineChart from "components/chart/LineChart";
 import Leaderboard from "components/chart/Leaderboard";
 
 @observer
 class MyTabs extends React.Component {
-    renderTabBar=(props, index)=>{
-        const {changePage} = store;
-        const {tabs, activeTab} = props;
+    renderTabBar=(props)=>{
+        const {changePage, page} = store;
+        let {tabs, activeTab} = props;
+        activeTab = page;
         return <div className={styles.tabbar}>
             <ul className={styles.tablist}>
                 {tabs.map(tab => {
@@ -19,27 +19,25 @@ class MyTabs extends React.Component {
                     return (
                         <li key={page}
                             className={activeTab === page?styles.activeTabli:styles.normalTabli}
-                            onClick={()=>changePage(index, page)}>{title}</li>
+                            onClick={()=>changePage(page)}>{title}</li>
                     )
                 })}
             </ul>
         </div>
     };
     render() {
-        const {tabs, segmentedSelectedIndex} = store;
-        const pages = toJS(store.pages);
+        const {tabs, page} = store;
         return (
-            <div>
-                <Tabs tabs={tabs}
-                      page={pages[segmentedSelectedIndex]}
-                      renderTabBar={(...args)=>this.renderTabBar(...args, segmentedSelectedIndex)}
-                >
-                    <div>
-                        <LineChart/>
-                        <Leaderboard/>
-                    </div>
-                </Tabs>
-            </div>
+            <Tabs tabs={tabs}
+                  page={page}
+                  renderTabBar={this.renderTabBar}
+                  swipeable={false}
+            >
+                <div className={styles.tabContent}>
+                    <LineChart/>
+                    <Leaderboard/>
+                </div>
+            </Tabs>
         );
     }
 }

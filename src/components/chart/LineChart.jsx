@@ -7,18 +7,18 @@ import {toJS} from "mobx";
 
 @observer
 class LineChart extends React.Component {
-    weekOptions=(page)=>{
-        const {classify} = store;
-        const currentWeekAccounts = toJS(store.currentWeekAccounts);
-        const lastWeekAccounts = toJS(store.lastWeekAccounts);
-        const weekDates = toJS(store.weekDates);
-        const lastWeekDates = toJS(store.lastWeekDates);
-        let accounts = !page?lastWeekAccounts : currentWeekAccounts;
-        console.log(accounts);
+    weekOptions=()=>{
+        const {classify, getTotal, getAverage, getMax} = store;
+        const dates = toJS(store.chartxAxis);
+        const accounts = toJS(store.tabAccounts);
+        console.log("weekAccounts:", accounts);
 
-        let dates = !page?lastWeekDates : weekDates;
+        const total = getTotal(accounts);
+        const average = getAverage(total);
+
         let xAxisData = [];
-        let datesLen = dates.length;
+        let seriesData = [];
+
         dates.map((date, idx) => {
             xAxisData.push({
                 value: (()=>{
@@ -31,23 +31,30 @@ class LineChart extends React.Component {
                 textStyle: (()=>{
                     if(idx === 0) {
                         return {padding: [0, 0, 0, 20]}
-                    } else if (idx === datesLen - 1) {
+                    } else if (idx === dates.length - 1) {
                         return {padding: [0, 20, 0, 0]}
                     } else {
                         return {}
                     }
                 })()
-            })
+            });
+            // 当天的账单
+            const _accounts = accounts.filter(acc => moment(acc.time.iso).startOf('day').isSame(date.startOf('day')));
+            const totalPrice = _.sumBy(_accounts, (acc) => acc.price);
+            seriesData.push(totalPrice?totalPrice : 0.00);
         });
+
+        const max = getMax(seriesData);
+
         return {
             title: {
-                text: `总${classify}：66.00`,
+                text: `总${classify}：${total}`,
                 textStyle: {
                     fontWeight: "normal",
                     fontSize: "12",
                     color: "#9a9a9a"
                 },
-                subtext: "平均值：13.20",
+                subtext: `平均值：${average}`,
                 subtextStyle: {
                     fontSize: "10",
                 },
@@ -87,7 +94,7 @@ class LineChart extends React.Component {
                 bottom: 20
             },
             series: [{
-                data: [66, 0, 0, 0, 0, 0, 0],
+                data: seriesData,
                 type: 'line',
                 lineStyle: {
                     color: "#000",
@@ -101,32 +108,63 @@ class LineChart extends React.Component {
                     silent: true,
                     symbol: false,
                     data: [{
-                        yAxis: 13.20,
+                        yAxis: average,
                         lineStyle: {
                             color: "#9a9a9a"
                         },
                     }, {
-                        yAxis: 66,
+                        yAxis: max,
                         lineStyle: {
                             color: "#9a9a9a",
-                            classify: "solid"
+                            type: "solid"
                         },
                     }]
                 }
             }]
         };
     };
-    monthOptions=(accounts)=>{
-        const {classify} = store;
+    monthOptions=()=>{
+        const {classify, getTotal, getAverage, getMax} = store;
+        const dates = toJS(store.chartxAxis);
+        const accounts = toJS(store.tabAccounts);
+        console.log("monthAccounts:", accounts);
+
+        const total = getTotal(accounts);
+        const average = getAverage(total);
+
+        let xAxisData = [];
+        let seriesData = [];
+
+        dates.map((date, idx) => {
+            xAxisData.push({
+                value: date,
+                textStyle: (()=>{
+                    if(idx === 0) {
+                        return {padding: [0, 0, 0, 20]}
+                    } else if (idx === dates.length - 1) {
+                        return {padding: [0, 20, 0, 0]}
+                    } else {
+                        return {}
+                    }
+                })()
+            });
+            // 当天的账单
+            const _accounts = accounts.filter(acc => moment(acc.time.iso).date() === date);
+            const totalPrice = _.sumBy(_accounts, (acc) => acc.price);
+            seriesData.push(totalPrice?totalPrice : 0.00);
+        });
+
+        const max = getMax(seriesData);
+
         return {
             title: {
-                text: `总${classify}：66.00`,
+                text: `总${classify}：${total}`,
                 textStyle: {
                     fontWeight: "normal",
                     fontSize: "12",
                     color: "#9a9a9a"
                 },
-                subtext: "平均值：13.20",
+                subtext: `平均值：${average}`,
                 subtextStyle: {
                     fontSize: "10",
                 },
@@ -149,17 +187,7 @@ class LineChart extends React.Component {
                     fontSize: 10,
                     margin: 5,
                 },
-                data: [{
-                    value: '10-22',
-                    textStyle: {
-                        padding: [0, 0, 0, 20]
-                    }
-                }, '10-23', '10-24', '10-25', '今天', '10-27', {
-                    value: '10-28',
-                    textStyle: {
-                        padding: [0, 20, 0, 0]
-                    }
-                }]
+                data: xAxisData
             },
             yAxis: {
                 show: false,
@@ -176,7 +204,7 @@ class LineChart extends React.Component {
                 bottom: 20
             },
             series: [{
-                data: [66, 0, 0, 0, 0, 0, 0],
+                data: seriesData,
                 type: 'line',
                 lineStyle: {
                     color: "#000",
@@ -190,32 +218,63 @@ class LineChart extends React.Component {
                     silent: true,
                     symbol: false,
                     data: [{
-                        yAxis: 13.20,
+                        yAxis: average,
                         lineStyle: {
                             color: "#9a9a9a"
                         },
                     }, {
-                        yAxis: 66,
+                        yAxis: max,
                         lineStyle: {
                             color: "#9a9a9a",
-                            classify: "solid"
+                            type: "solid"
                         },
                     }]
                 }
             }]
         };
     };
-    yearOptions=(accounts)=>{
-        const {classify} = store;
+    yearOptions=()=>{
+        const {classify, getTotal, getAverage, getMax} = store;
+        const dates = toJS(store.chartxAxis);
+        const accounts = toJS(store.tabAccounts);
+        console.log("yearAccounts:", accounts);
+
+        const total = getTotal(accounts);
+        const average = getAverage(total);
+
+        let xAxisData = [];
+        let seriesData = [];
+
+        dates.map((date, idx) => {
+            xAxisData.push({
+                value: `${date}月`,
+                textStyle: (()=>{
+                    if(idx === 0) {
+                        return {padding: [0, 0, 0, 20]}
+                    } else if (idx === dates.length - 1) {
+                        return {padding: [0, 20, 0, 0]}
+                    } else {
+                        return {}
+                    }
+                })()
+            });
+            // 当月的账单
+            const _accounts = accounts.filter(acc => moment(acc.time.iso).month()+1 === date);
+            const totalPrice = _.sumBy(_accounts, (acc) => acc.price);
+            seriesData.push(totalPrice?totalPrice : 0.00);
+        });
+
+        const max = getMax(seriesData);
+
         return {
             title: {
-                text: `总${classify}：66.00`,
+                text: `总${classify}：${total}`,
                 textStyle: {
                     fontWeight: "normal",
                     fontSize: "12",
                     color: "#9a9a9a"
                 },
-                subtext: "平均值：13.20",
+                subtext: `平均值：${average}`,
                 subtextStyle: {
                     fontSize: "10",
                 },
@@ -238,17 +297,7 @@ class LineChart extends React.Component {
                     fontSize: 10,
                     margin: 5,
                 },
-                data: [{
-                    value: '10-22',
-                    textStyle: {
-                        padding: [0, 0, 0, 20]
-                    }
-                }, '10-23', '10-24', '10-25', '今天', '10-27', {
-                    value: '10-28',
-                    textStyle: {
-                        padding: [0, 20, 0, 0]
-                    }
-                }]
+                data: xAxisData
             },
             yAxis: {
                 show: false,
@@ -265,7 +314,7 @@ class LineChart extends React.Component {
                 bottom: 20
             },
             series: [{
-                data: [66, 0, 0, 0, 0, 0, 0],
+                data: seriesData,
                 type: 'line',
                 lineStyle: {
                     color: "#000",
@@ -279,15 +328,15 @@ class LineChart extends React.Component {
                     silent: true,
                     symbol: false,
                     data: [{
-                        yAxis: 13.20,
+                        yAxis: average,
                         lineStyle: {
                             color: "#9a9a9a"
                         },
                     }, {
-                        yAxis: 66,
+                        yAxis: max,
                         lineStyle: {
                             color: "#9a9a9a",
-                            classify: "solid"
+                            type: "solid"
                         },
                     }]
                 }
@@ -296,18 +345,11 @@ class LineChart extends React.Component {
     };
 
     getOption=()=>{
-        // pageIndex 0,1,2代表周月年
-        // page 0,1代表tabs的page
         const {segmentedSelectedIndex} = store;
-        const pages = toJS(store.pages);
-        const currentMonthAccounts = toJS(store.currentMonthAccounts);
-        const currentYearAccounts = toJS(store.currentYearAccounts);
-        const page = pages[segmentedSelectedIndex];
-
         switch (segmentedSelectedIndex) {
-            case 0: return this.weekOptions(page);
-            case 1: return this.monthOptions(currentMonthAccounts);
-            case 2: return this.yearOptions(currentYearAccounts);
+            case 0: return this.weekOptions();
+            case 1: return this.monthOptions();
+            case 2: return this.yearOptions();
         }
     };
 
@@ -316,7 +358,7 @@ class LineChart extends React.Component {
             <div className={styles.container}>
                 <ReactEcharts
                     option={this.getOption()}
-                    notMerge={true}
+                    // notMerge={true}
                     lazyUpdate={true}
                     // theme={"theme_name"}
                     // onChartReady={this.onChartReadyCallback}

@@ -45,14 +45,14 @@ export default class DetailStore{
     // 获得月总支出/收入
     @computed get paysByMonth() {
         return this.timeAccountsByClassify["pay"]
-            && _.round(_.sum(this.timeAccountsByClassify["pay"].map(acc=>acc.price)), 2)
-            || "0.00";
+            && _.sum(this.timeAccountsByClassify["pay"].map(acc=>acc.price)).toFixed(2)
+            || 0.00;
     }
     // 获得月总支出/收入
     @computed get incomesByMonth() {
         return this.timeAccountsByClassify["income"]
-            && _.round(_.sum(this.timeAccountsByClassify["income"].map(acc=>acc.price)), 2)
-            || "0.00";
+            && _.sum(this.timeAccountsByClassify["income"].map(acc=>acc.price)).toFixed(2)
+            || 0.00;
     }
 
     // 按日分组账单
@@ -67,7 +67,7 @@ export default class DetailStore{
 
     // 获取星期几
     @action getDay(timeAccount) {
-        let week = moment(timeAccount.time).day();
+        let week = moment(timeAccount.time.iso).day();
         const weeks=["一","二","三","四","五","六","日"];
         if(week === 0) {
             week = 7;
