@@ -12,5 +12,108 @@
   .main {
     flex: 1;
     background: #f5f5f5;
+    overflow: scroll;
+    .accounts, .classes, .features {
+      background: #fff;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .month {
+      position: relative;
+      float: left;
+      margin-top: 30px;
+      width: 15vw;
+      .rightLine {
+        position: absolute;
+        right: 0;
+        top: 8px;
+        width: 1px;
+        height: 45px;
+        background: #ccc;
+      }
+      .month_num {
+        font-weight: bolder;
+        font-size: 40px;
+      }
+    }
+    .income, .pay, .surplus {
+      float: left;
+      width: 20vw;
+      padding-left: 3vw;
+      margin-top: 10px;
+      .title {
+        color: #9a9a9a;
+        font-size: 20px;
+      }
+      .count {
+        font-size: 32px;
+        margin-top: 5px;
+      }
+    }
+    .class {
+      margin: 15px 0;
+      overflow: hidden;
+      .class_img {
+        border: 1px solid #ddd;
+        float: left;
+        width: 20vw;
+        height: 180px;
+      }
+      .class_tl {
+        height: 180px;
+        float: left;
+        position: relative;
+        margin-left: 10px;
+        .title {
+          font-size: 24px;
+        }
+        .discription {
+          font-size: 22px;
+          color: #9a9a9a;
+        }
+        .buycount {
+          font-size: 20px;
+          color: #bbb;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+        }
+      }
+      .class_tr {
+        height: 180px;
+        float: right;
+        text-align: right;
+        .price {
+          font-size: 24px;
+          color: #d7858e;
+        }
+        .times {
+          font-size: 22px;
+          color: #bbb;
+        }
+      }
+    }
+    .features {
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 22px;
+        .item{
+          width: 25%;
+          padding: 20px 0;
+          .itemImg{
+            display: block;
+            width: 10vw;
+            margin: 0 auto;
+          }
+          .itemTitle{
+            text-align: center;
+            margin-top: 10px;
+          }
+        }
+      }
+
+    }
   }
 }
